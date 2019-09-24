@@ -1,0 +1,103 @@
+//given n numbers, n is interger, n>=0; out put max, min; divide and conquer method
+
+
+#include<iostream>
+using namespace std;
+
+void max_min(int start, int endd, int a[], int &maxx, int &minn)
+{
+    //cout<<"start=="<<start<<endl;
+   // cout<<"endd=="<<endd<<endl;
+
+    if((endd-start)==1)
+    {
+        if(a[start]>a[endd])
+        {
+            int tmp;
+            tmp=a[start];
+            a[start]=a[endd];
+            a[endd]=tmp;
+        }
+         if(a[endd]>maxx)maxx=a[endd];
+        if(a[start]<minn)minn=a[start];
+        return;
+    }
+    if(start==endd)
+    {
+
+        if(a[start]>maxx)maxx=a[start];
+        if(a[start]<minn)minn=a[start];
+        return;
+    }
+    int mid=endd/2;
+    max_min(start,mid,a,maxx,minn);
+    max_min(mid+1,endd,a,maxx,minn);
+
+}
+int main()
+{
+    int n;
+    cin>>n;
+    int a[n];
+    for(int i=0;i<n;i++)
+    {
+        cin>>a[i];
+    }
+    int maxx=0,minn=0x3f3f3f3f;
+    max_min(0,n-1,a,maxx,minn);
+    cout<<maxx<<" "<<minn<<endl;
+
+}
+
+
+//using Template; it can change the type of array a
+#include<iostream>
+using namespace std;
+
+template <class T>
+
+void max_min(int start, int endd, T a[], T &maxx, T &minn)
+{
+    //cout<<"start=="<<start<<endl;
+   // cout<<"endd=="<<endd<<endl;
+
+    if((endd-start)==1)
+    {
+        if(a[start]>a[endd])
+        {
+            int tmp;
+            tmp=a[start];
+            a[start]=a[endd];
+            a[endd]=tmp;
+        }
+         if(a[endd]>maxx)maxx=a[endd];
+        if(a[start]<minn)minn=a[start];
+        return;
+    }
+    if(start==endd)
+    {
+
+        if(a[start]>maxx)maxx=a[start];
+        if(a[start]<minn)minn=a[start];
+        return;
+    }
+    int mid=endd/2;
+    max_min(start,mid,a,maxx,minn);
+    max_min(mid+1,endd,a,maxx,minn);
+
+}
+int main()
+{
+    int n;
+    cin>>n;
+    char a[n];
+    for(int i=0;i<n;i++)
+    {
+        cin>>a[i];
+    }
+    char maxx,minn;
+    max_min(0,n-1,a,maxx,minn);
+    cout<<maxx<<" "<<minn<<endl;
+
+}
+
