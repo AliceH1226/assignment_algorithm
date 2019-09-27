@@ -1,0 +1,31 @@
+//given a base ten interger, output the number of its bits 
+
+
+
+
+
+#include<iostream>
+using namespace std;
+
+
+int num_bit(int num){
+int mask = 1;
+int count = 0;
+int position = 0;
+while(mask){
+if(mask & num)//or operation, base 2 bit
+position = count;
+mask = mask<<1;
+count++;
+}
+cout<<"count=="<<count<<endl;//count is always 32, depending on your computer; 
+return position + 1;
+}
+
+ int main()
+ {
+     int n;
+     cin>>n;
+     cout<<num_bit(n)<<endl;
+     return 0;
+ }
