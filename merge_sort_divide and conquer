@@ -1,0 +1,103 @@
+
+
+
+
+
+
+#include<iostream>
+using namespace std;
+
+
+
+void mergee(int *pa,int *pb,int start, int endd,int mid)
+{
+    int i,j,k;
+    i=start;
+    j=mid+1;
+    k=start;
+    while(i<=mid&&j<=endd)
+    {
+        if(pa[i]<pa[j])
+        {
+            pb[k++]=pa[i++];
+            
+        }
+        else
+        {
+            pb[k++]=pa[j++];
+        }
+    }
+    while(i<=mid)
+    {
+        pb[k++]=pa[i++];
+    
+    }
+    while(j<=endd)
+    {
+    
+        pb[k++]=pa[j++];
+        
+    }
+
+    for(int i=start;i<=endd;i++)
+    {
+        pa[i]=pb[i];
+    }
+
+    
+    return;
+
+}
+void mergesort(int *pa,int *pb,int start,int endd)
+{
+    
+
+    if(start==endd)
+    {
+        
+
+        return;
+    }
+    if((start+1)==endd)
+    {
+        
+        if(pa[start]<pa[endd])
+        {
+            
+            return;
+        }
+        else
+        {
+            int tmp;
+            tmp=pa[start];
+            pa[start]=pa[endd];
+            pa[endd]=tmp;
+        }
+       
+        return;
+    }
+    int mid=(start+endd)/2;
+    
+    mergesort(pa,pb,start,mid);
+    mergesort(pa,pb,mid+1,endd);
+    mergee(pa,pb,start,endd,mid);
+
+}
+
+int main()
+{
+    int n;
+    cin>>n;
+    int a[n],*pa;
+    int b[n],*pb;
+    pa=a;
+    pb=b;
+
+
+    for(int i=0;i<n;i++)
+        cin>>a[i];
+   mergesort(pa,pb,0,n-1);
+   for(int i=0;i<n;i++)
+    cout<<b[i]<<endl;
+
+}
