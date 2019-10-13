@@ -74,3 +74,61 @@ int main()
     LCS(m,n,x,b);
 
 }
+
+
+
+---------------
+部分背包问题，一个物体可以放部分进去
+
+
+
+
+
+#include<iostream>
+#include<algorithm>
+using namespace std;
+
+const int maxn=100;
+struct K
+{
+    float v;
+    float w;
+    float x;
+}k[maxn];
+
+bool cmp(K aa,  K bb)
+{
+    return aa.v/aa.w>bb.v/bb.w;//单位价值最高的先放进去
+}
+
+int main()
+{
+    int n;
+    int M;
+    cin>>n>>M;
+
+    for(int i=1;i<=n;i++)
+    {
+        cin>>k[i].v>>k[i].w;
+    }
+     sort(k+1,k+n+1,cmp);
+     int i;
+    for(i=1;i<=n;i++)
+    {
+        k[i].x=0;
+    }
+    float c=M;
+    for(i=1;i<=n;i++)
+    {
+        if(k[i].w>c)
+            break;
+        k[i].x=1;
+        c-=k[i].w;
+    }
+    if(i<=n)
+    {
+        k[i].x=c/k[i].w;
+    }
+    for(int i=1;i<=n;i++)
+        cout<<k[i].x<<" "<<endl;
+}
