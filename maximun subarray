@@ -23,3 +23,39 @@ int main()
     }
     cout<<b[n-1]<<endl;
 }
+
+
+
+
+
+
+
+#include<iostream>
+using namespace std;
+
+
+int divide_and_conquer(int a[],int beg, int endd)
+{
+    if(beg==endd)return a[beg];
+    int mid=beg+(endd-beg)/2;
+    int sum1,sum2;
+    sum1=divide_and_conquer(a,beg,mid);
+    sum2=divide_and_conquer(a,mid+1,endd);
+    if(sum1+sum2>sum2)sum2+=sum1;
+    return sum2;
+
+
+
+}
+int main()
+{
+    int n;
+    cin>>n;
+    int a[n];
+    for(int i=0;i<n;i++)cin>>a[i];
+    int sum;
+    sum=0;
+    cout<<divide_and_conquer(a,0,n-1)<<endl;
+
+}
+
