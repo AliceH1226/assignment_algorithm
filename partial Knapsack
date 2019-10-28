@@ -1,0 +1,101 @@
+
+
+
+
+
+
+#include<iostream>
+#include<stdio.h>
+using namespace std;
+
+bool vis[100];
+
+
+int main()
+{
+    freopen("C:\\Users\\lenovo\\Desktop\\tmp.txt","r",stdin);
+    int n;float m;//m必须float,否则maxnval+=m*d[a[i]]中，等号右端转成int,错误
+    cin>>n>>m;
+    float w[n];
+    float v[n];
+    float d[n];
+    int a[n];//记录排序后编号，从大到小
+
+    cout<<"*****"<<endl;
+    for(int i=0;i<n;i++)
+    {
+        cin>>w[i]>>v[i];
+        d[i]=v[i]/w[i];
+        cout<<d[i]<<endl;
+        a[i]=i;
+
+    }
+    cout<<"*****"<<endl;
+    int tmp=n;
+    float maxn=-1;//必须浮点数，若是int ,maxn(int)与d[i](float)比较大小时会先转为int后比较，错误
+    int cnt=0;
+    while(tmp--)
+    {
+        int id;
+         for(int i=0;i<n;i++)
+         {
+             if((maxn<d[i])&&(!vis[i]))
+             {
+                 maxn=d[i];
+                 id=i;
+             }
+         }
+         cout<<"maxn=="<<maxn<<endl;
+         cout<<"id=="<<id<<endl;
+         vis[id]=true;
+         a[cnt++]=id;
+         maxn=-1;
+    }
+    cout<<"排序后"<<endl;
+    cout<<"&&&&&"<<endl;
+    for(int i=0;i<n;i++)
+    {
+        cout<<d[a[i]]<<endl;
+    }
+    cout<<"&&&&&"<<endl;
+    cout<<endl;
+    int i=0;
+    float maxnval=0;
+   while(m)
+   {
+       if(m>=w[a[i]])
+       {
+           cout<<"可以全装"<<endl;
+           cout<<"m=="<<m<<endl;
+           cout<<"w["<<a[i]<<"]=="<<w[a[i]]<<endl;
+           m-=w[a[i]];
+           maxnval+=v[a[i]];
+           cout<<"maxnval=="<<maxnval<<endl;
+       }
+       else
+       {
+           cout<<"装部分"<<endl;
+           cout<<"m=="<<m<<endl;
+           cout<<"a["<<i<<"]=="<<a[i]<<endl;
+           cout<<d[a[i]]<<endl;
+           cout<<maxnval<<endl;
+
+           maxnval+=m*d[a[i]];
+           m=0;//m先使用后赋0
+           cout<<maxnval<<endl;
+       }
+       i++;
+   }
+   cout<<maxnval<<endl;
+    fclose(stdin);//关闭文件
+}
+
+
+
+5 7
+3 1
+8 2
+4
+2
+2 1
+6 2
