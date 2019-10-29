@@ -1,0 +1,111 @@
+
+
+
+#include<iostream>
+#include<stdio.h>
+#define inf 0x3f3f3f3f
+using namespace std;
+
+const int maxn=1000;
+int a[maxn][maxn];
+int n;//n个节点,m条路
+bool vis[maxn];
+int cost=inf;
+int tmpcost;
+int start;
+int ans[maxn];
+int tmpans[maxn];
+int sum;
+
+void dfs(int a[maxn][maxn],int cur,int cnt)
+{
+    if(cnt==n-1)
+    {
+
+        sum++;
+        if(tmpcost+a[cur][start]<cost)
+        {
+            cost=tmpcost+a[cur][start];
+            tmpans[cnt+1]=start;
+            for(int i=0;i<n;i++)
+            {
+                ans[i]=tmpans[i];
+            }
+        }
+        return;
+    }
+    else
+    {
+        for(int i=0;i<n;i++)
+        {
+            if(i!=cur)
+            {
+                if(!vis[i]&&tmpcost+a[cur][i]<cost)
+            {
+                tmpcost+=a[cur][i];
+                vis[i]=true;
+                tmpans[cnt+1]=i;
+                dfs(a,i,cnt+1);
+                tmpcost-=a[cur][i];
+                vis[i]=false;
+            }
+            }
+
+        }
+    }
+}
+int main()
+{
+    freopen("C:\\Users\\lenovo\\Desktop\\tmp.txt","r",stdin);
+   cin>>n;
+
+   cin>>start;
+   start--;
+
+
+   vis[start]=true;
+
+
+   for(int i=0;i<n;i++)
+   {
+       for(int j=0;j<n;j++)
+       {
+           a[i][j]=inf;
+           a[j][i]=inf;
+       }
+   }
+   int m;
+   m=(-n+n*n)/2;
+   while(m--)
+   {
+
+       int u,v,val;
+       cin>>u>>v>>val;
+       u--;
+       v--;
+       a[u][v]=val;
+       a[v][u]=val;
+
+   }
+    int cnt=0;
+    tmpans[cnt]=start;
+   dfs(a,start,cnt);
+   cout<<cost<<endl;
+   for(int i=0;i<n;i++)
+    cout<<ans[i]<<endl;
+    fclose(stdin);
+
+
+
+}
+
+
+
+4 
+3
+1 2 20
+1 4 3
+1 3 34
+2 4 5
+2 3 6
+3 4 16
