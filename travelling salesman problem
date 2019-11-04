@@ -100,6 +100,14 @@ int main()
 }
 
 
+45
+2
+1
+0
+3
+
+Process returned 0 (0x0)   execution time : 0.255 s
+
 
 4 
 3
@@ -220,4 +228,136 @@ int main()
 
 
 }
+45
+2
+1
+0
+3
+
+Process returned 0 (0x0)   execution time : 0.401 s
+
+
+
+
+//add a lowerbound based on the last one; performmance imporved; see runtime;
+
+#include<iostream>  
+#include<stdio.h>  
+#define inf 0x3f3f3f3f  
+using namespace std;  
+  
+const int maxn=1000;  
+int a[maxn][maxn];  
+int n;//n个节点,m条路  
+bool vis[maxn];  
+int bestc=1;  
+int low=0;  
+int tmpcost;  
+int start;  
+int ans[maxn];  
+int tmpans[maxn];  
+int sum;  
+  
+void dfs(int a[maxn][maxn],int cur,int cnt)  
+{  
+    if(cnt==n-1)  
+    {  
+  
+        sum++;  
+        if(tmpcost+a[cur][start]<bestc&&tmpcost+a[cur][start]>=low)  
+        {  
+            bestc=tmpcost+a[cur][start];  
+            tmpans[cnt+1]=start;  
+            for(int i=0;i<n;i++)  
+            {  
+                ans[i]=tmpans[i];  
+            }  
+        }  
+        return;  
+    }  
+    else  
+    {  
+        for(int i=0;i<n;i++)  
+        {  
+            if(i!=cur)  
+            {  
+                if(!vis[i]&&tmpcost+a[cur][i]<bestc&&tmpcost+a[cur][start]>=low)  
+            {  
+                tmpcost+=a[cur][i];  
+                vis[i]=true;  
+                tmpans[cnt+1]=i;  
+                dfs(a,i,cnt+1);  
+                tmpcost-=a[cur][i];  
+                vis[i]=false;  
+            }  
+            }  
+  
+        }  
+    }  
+}  
+int main()  
+{  
+    freopen("C:\\Users\\lenovo\\Desktop\\tmp.txt","r",stdin);  
+   cin>>n;  
+  
+   cin>>start;  
+   start--;  
+  
+  
+   vis[start]=true;  
+  
+  
+   for(int i=0;i<n;i++)  
+   {  
+       for(int j=0;j<n;j++)  
+       {  
+           a[i][j]=inf;  
+           a[j][i]=inf;  
+       }  
+   }  
+   int m;  
+   m=(-n+n*n)/2;  
+   int maxnn[n];  
+   int minn[n];  
+   for(int i=0;i<n;i++)  
+    minn[i]=inf;  
+   for(int i=0;i<n;i++)  
+    maxnn[i]=-1;  
+   while(m--)  
+   {  
+  
+       int u,v,val;  
+       cin>>u>>v>>val;  
+       u--;  
+       v--;  
+       a[u][v]=val;  
+       a[v][u]=val;  
+       if(maxnn[u]<val)maxnn[u]=val;  
+       if(maxnn[v]<val)maxnn[v]=val;  
+       if(minn[u]>val)minn[u]=val;  
+       if(minn[v]>val)minn[v]=val;  
+  
+   }  
+  
+   for(int i=0;i<n;i++)bestc+=maxnn[i];  
+   for(int i=0;i<n;i++)low+=minn[i];  
+  
+    int cnt=0;  
+    tmpans[cnt]=start;  
+   dfs(a,start,cnt);  
+   cout<<bestc<<endl;  
+   for(int i=0;i<n;i++)  
+    cout<<ans[i]<<endl;  
+    fclose(stdin);  
+  
+  
+  
+}  
+45
+2
+3
+0
+1
+
+Process returned 0 (0x0)   execution time : 0.281 s
 
