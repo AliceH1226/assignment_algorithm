@@ -1,0 +1,78 @@
+
+
+
+
+#include<iostream>
+#include<stdio.h>
+#include<cstring>
+#define inf 0x3f3f3f3f
+using namespace std;
+
+const int maxn=1000;
+int w[maxn][maxn];
+int vis[maxn];
+int d[maxn];
+int ans[maxn];
+
+int main()
+{
+    freopen("C:\\Users\\lenovo\\Desktop\\tmp.txt","r",stdin);
+    int n,m;
+    cin>>n>>m;
+
+    int u,v,ww;
+    for(int i=0;i<n;i++)
+        for(int j=0;j<n;j++)
+        w[i][j]=inf,w[j][i]=inf;
+    while(m--)
+    {
+        cin>>u>>v>>ww;
+        u--;
+        v--;
+        w[u][v]=ww;
+        w[v][u]=ww;
+    }
+
+    int st;
+    cin>>st;
+
+    memset(vis,0,sizeof(vis));
+    for(int i=0;i<n;i++)d[i]=(i==st?0:inf);
+    int cnt=0;
+
+    for(int i=0;i<n;i++){
+
+        int x,m=inf;
+        for(int y=0;y<n;y++)if(!vis[y]&&d[y]<=m)m=d[x=y];
+        vis[x]=1;
+        ans[cnt++]=x;
+        for(int k=0;k<cnt;k++)
+        {
+            cout<<ans[k]<<" ";
+        }
+        cout<<endl;
+        cout<<d[x]<<endl;
+        for(int y=0;y<n;y++)d[y]=min(d[y],d[x]+w[x][y]);
+    }
+    fclose(stdin);
+}
+
+
+input
+4 5
+1 2 3
+1 3 4
+2 4 5
+5 3 1
+2 3 2
+3
+
+output
+3
+0
+3 1
+5
+3 1 2
+7
+3 1 2 0
+8
