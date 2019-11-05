@@ -361,3 +361,257 @@ int main()
 
 Process returned 0 (0x0)   execution time : 0.281 s
 
+
+
+
+//textbook implementation; backtrace
+
+
+
+
+#include<iostream>
+#include<stdio.h>
+using namespace std;
+int n,m;
+const int maxn=1000;
+int a[maxn][maxn];
+int NoEdge=0;
+int bestc;
+int x[maxn];
+int bestx[maxn];
+int cc=0;
+int cnt;
+
+void Backtrack(int i)
+{
+    ++cnt;
+    if(i==n)
+    {
+        if(a[x[n-1]][x[n]]!=NoEdge&&a[x[n]][x[1]]!=NoEdge&&
+           (cc+a[x[n-1]][x[n]]+a[x[n]][x[1]]<bestc||bestc==NoEdge))
+        {
+            for(int j=1;j<=n;j++)
+                bestx[j]=x[j];
+            bestc=cc+a[x[n-1]][x[n]]+a[x[n]][1];
+        }
+    }
+    else
+    {
+        for(int j=i;j<=n;j++)
+        {
+            if(a[x[i-1]][x[j]]!=NoEdge&&(cc+a[x[i-1]][x[j]]<bestc||bestc==NoEdge))
+            {
+                swap(x[i],x[j]);
+                cc+=a[x[i-1]][x[i]];
+                Backtrack(i+1);
+                cc-=a[x[i-1]][x[i]];
+                swap(x[i],x[j]);
+            }
+        }
+    }
+}
+int main()
+{
+    freopen("C:\\Users\\lenovo\\Desktop\\tmp.txt","r",stdin);
+    cout<<"节点数："<<endl;
+    cin>>n;
+    cout<<n<<endl;
+    cout<<"边数："<<endl;
+    m=(-n+n*n)/2;
+    cout<<m<<endl;
+    int st;
+    cin>>st;
+     cout<<"起点："<<st<<endl;
+     cout<<endl;
+    int u,v,w;
+    for(int i=1;i<=m;i++)
+    {
+        cout<<"第"<<i<<"条边："<<endl;
+        cin>>u>>v>>w;
+        cout<<"("<<u<<","<<v<<"):"<<w<<endl;
+        a[u][v]=w;
+        a[v][u]=w;
+    }
+    cout<<endl;
+    for(int i=1;i<=n;i++)x[i]=i;
+    x[1]=st;
+    Backtrack(2);
+    cout<<"回溯次数："<<cnt<<endl;
+    cout<<"最小费用："<<bestc<<endl;
+    cout<<"路径："<<endl;
+    for(int i=1;i<=n;i++)
+        cout<<bestx[i]<<" ";
+    fclose(stdin);
+}
+
+input
+5 
+2
+1 2 20
+1 3 2
+1 4 4
+1 5 15
+2 3 23
+2 4 7
+2 5 9
+3 4 12
+3 5 76
+4 5 33
+
+output
+节点数：
+5
+边数：
+10
+起点：2
+
+第1条边：
+(1,2):20
+第2条边：
+(1,3):2
+第3条边：
+(1,4):4
+第4条边：
+(1,5):15
+第5条边：
+(2,3):23
+第6条边：
+(2,4):7
+第7条边：
+(2,5):9
+第8条边：
+(3,4):12
+第9条边：
+(3,5):76
+第10条边：
+(4,5):33
+
+回溯次数：21
+最小费用：39
+路径：
+2 5 2 4 3
+
+
+
+5-5
+#include<iostream>
+#include<stdio.h>
+using namespace std;
+int n,m;
+const int maxn=1000;
+int a[maxn][maxn];
+int maxnn[maxn];
+int NoEdge=0;
+int bestc;
+int x[maxn];
+int bestx[maxn];
+int cc=0;
+int cnt;
+int summaxnn=1;
+
+void Backtrack(int i)
+{
+    ++cnt;
+    if(i==n)
+    {
+        if(a[x[n-1]][x[n]]!=NoEdge&&a[x[n]][x[1]]!=NoEdge&&
+           (cc+a[x[n-1]][x[n]]+a[x[n]][x[1]]<bestc))
+        {
+            for(int j=1;j<=n;j++)
+                bestx[j]=x[j];
+            bestc=cc+a[x[n-1]][x[n]]+a[x[n]][1];
+        }
+    }
+    else
+    {
+        for(int j=i;j<=n;j++)
+        {
+            if(a[x[i-1]][x[j]]!=NoEdge&&(cc+a[x[i-1]][x[j]]<bestc))
+            {
+                swap(x[i],x[j]);
+                cc+=a[x[i-1]][x[i]];
+                Backtrack(i+1);
+                cc-=a[x[i-1]][x[i]];
+                swap(x[i],x[j]);
+            }
+        }
+    }
+}
+int main()
+{
+    freopen("C:\\Users\\lenovo\\Desktop\\tmp.txt","r",stdin);
+    cout<<"节点数："<<endl;
+    cin>>n;
+    cout<<n<<endl;
+    cout<<"边数："<<endl;
+    m=(-n+n*n)/2;
+    cout<<m<<endl;
+    int st;
+    cin>>st;
+     cout<<"起点："<<st<<endl;
+     cout<<endl;
+    int u,v,w;
+    for(int i=1;i<=m;i++)
+    {
+        cout<<"第"<<i<<"条边："<<endl;
+        cin>>u>>v>>w;
+        cout<<"("<<u<<","<<v<<"):"<<w<<endl;
+        a[u][v]=w;
+        a[v][u]=w;
+        if(maxnn[u]<w)maxnn[u]=w;
+        if(maxnn[v]<w)maxnn[v]=w;
+    }
+    cout<<endl;
+    for(int i=1;i<=n;i++)summaxnn+=maxnn[i];
+    bestc=summaxnn;
+    cout<<"初始bestc为："<<bestc<<endl;
+    cout<<endl;
+    for(int i=1;i<=n;i++)x[i]=i;
+    x[1]=st;
+    Backtrack(2);
+    cout<<"回溯次数："<<cnt<<endl;
+    cout<<"最小费用："<<bestc<<endl;
+    cout<<"路径："<<endl;
+    for(int i=1;i<=n;i++)
+        cout<<bestx[i]<<" ";
+    fclose(stdin);
+}
+输出：
+节点数：
+5
+边数：
+10
+起点：2
+
+第1条边：
+(1,2):20
+第2条边：
+(1,3):2
+第3条边：
+(1,4):4
+第4条边：
+(1,5):15
+第5条边：
+(2,3):23
+第6条边：
+(2,4):7
+第7条边：
+(2,5):9
+第8条边：
+(3,4):12
+第9条边：
+(3,5):76
+第10条边：
+(4,5):33
+
+初始bestc为：229
+
+回溯次数：21
+最小费用：39
+路径：
+2 5 2 4 3
+
+
+
+
+
