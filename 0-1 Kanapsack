@@ -1,0 +1,78 @@
+//n,m :number of packages, largest weight can be put into
+//w,v :weight value for each package
+//output the maximum value and the indexs of the packages that are chosen
+
+
+
+#include<iostream>
+#include<stdio.h>
+using namespace std;
+
+const int maxn=1000;
+int w[maxn];
+int v[maxn];
+int ansp[maxn];
+int ansv;
+int n,m;
+int bestv;
+int loadp[maxn];
+int predv[maxn];
+int load;
+
+
+void backtrace(int curno,int curw,int curv,int sumload)
+{
+    if(curno==n)return ;
+    if((curw+w[curno]>m)||(predv[curno]+curv<bestv))
+    {
+        return ;
+    }
+    if(curno==n-1)
+    {
+            bestv=curv+v[curno];
+            loadp[sumload]=curno;
+        for(int i=0;i<=sumload;i++)
+        {
+            ansp[i]=loadp[i];
+        }
+        load=sumload;
+        return ;
+    }
+    curw+=w[curno];
+    curv+=v[curno];
+    loadp[sumload]=curno;
+    backtrace(curno+1,curw,curv,sumload+1);
+    curw-=w[curno];
+    curv-=v[curno];
+    backtrace(curno+1,curw,curv,sumload);
+}
+int main()
+{
+    freopen("C:\\Users\\lenovo\\Desktop\\tmp.txt","r",stdin);
+    cin>>n>>m;
+    for(int i=0;i<n;i++)
+    {
+        cin>>w[i]>>v[i];
+    }
+    for(int i=n-1;i>=0;i--)
+    {
+        if(i!=n-1)
+        predv[i]=predv[i+1]+v[i];
+        else predv[i]=v[i];
+    }
+    backtrace(0,0,0,0);
+    cout<<bestv<<endl;
+    for(int i=0;i<=load;i++)cout<<ansp[i]<<" ";
+    fclose(stdin);
+}
+
+input
+5 15
+3 4
+2 5
+6 2
+8 2
+9 5
+output
+14
+0 1 4
