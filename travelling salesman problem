@@ -756,3 +756,217 @@ bestc初始为：38
 
 
 
+#include<bits/stdc++.h>
+using namespace std;
+const int maxn=100;
+
+int n,m;
+class Traveling
+{
+    friend TSP(int**, int[], int, int);
+private:
+    void Backtrack(int i);
+    int n;
+    *x,
+    *bestx;
+    int **a,
+    cc,
+    bestc,
+    NoEdge;
+
+};
+void Make2DArray(int **&x,int rows,int cols)
+{
+    // 创建一个行指针
+    x=new int *[rows];
+    for(int i=0;i<rows;i++)
+    {
+        x[i]=new int [cols];
+    }
+
+}
+void Traveling::Backtrack(int i)
+{
+    cout<<endl;
+    cout<<endl;
+    cout<<"i=="<<i<<endl;
+    if(i==n)
+    {
+        if(a[x[n-1]][x[n]]!=NoEdge&&a[x[n]][1]!=NoEdge&&
+           (cc+a[x[n-1]][x[n]]+a[x[n]][1]<bestc||bestc==NoEdge)){
+            for(int j=1;j<=n;j++)
+                bestx[j]=x[j];
+            bestc=cc+a[x[n-1]][x[n]]+a[x[n]][1];
+           }
+    }
+    else
+    {
+        cout<<"else"<<endl;
+        for(int j=i;j<=n;j++)
+        {
+
+            if(a[x[i-1]][x[j]]!=NoEdge&&(cc+a[x[i-1]][x[j]]<bestc||bestc==NoEdge))
+            {
+                cout<<"x["<<i<<"]=="<<x[i]<<endl;
+                cout<<"x["<<j<<"]=="<<x[j]<<endl;
+                swap(x[i],x[j]);
+                cout<<x[i-1]<<endl;
+                cout<<x[i]<<endl;
+
+
+                 cc+=a[x[i-1]][x[i]];
+                Backtrack(i+1);
+                 cc-=a[x[i-1]][x[i]];
+                swap(x[i],x[j]);
+            }
+        }
+    }
+}
+int TSP(int **a,int v[],int n,int NoEdge)
+{
+
+    cout<<"TSP"<<endl;
+    Traveling Y;
+    Y.x=new int [n+1];
+    for(int i=1;i<=n;i++)
+        Y.x[i]=i;
+    Y.a=a;
+    Y.n=n;
+    Y.bestc=NoEdge;
+    Y.bestx=v;
+    Y.cc=0;
+    Y.NoEdge=NoEdge;
+    cout<<"***"<<endl;
+    Y.Backtrack(2);
+    delete [] Y.x;
+    return Y.bestc;
+}
+int main()
+{
+    freopen("C:\\Users\\lenovo\\Desktop\\tmp.txt","r",stdin);
+    int **a;
+    int v[maxn];
+    Make2DArray(a,maxn,maxn);
+    cin>>n;
+    cout<<n<<endl;
+    int cost;
+    for(int i=1;i<=n;i++)
+    {
+        for(int j=1;j<=n;j++)
+        {
+            cin>>cost;
+            a[i][j]=cost;
+        }
+
+    }
+    for(int i=1;i<=n;i++)
+    {
+        for(int j=1;j<=n;j++)
+        {
+
+            cout<<a[i][j]<<" ";
+        }
+        cout<<endl;
+    }
+
+    /*for(int i=1;i<=m;i++)
+    {
+        cout<<"i=="<<i<<endl;
+        cin>>st>>nd>>cost;
+         cout<<"st=="<<st<<endl;
+        cout<<"nd=="<<nd<<endl;
+        cout<<"cost=="<<cost<<endl;
+        a[st][nd]=cost;
+        v[i]=cost;
+
+    }*/
+    cout<<"out"<<endl;
+    cout<<TSP(a,v,n,0)<<endl;
+    fclose(stdin);
+
+
+
+}
+
+input
+4
+0 30 6 4
+30 0 5 10
+6 5 0 20
+4 10 20 0
+output
+4
+0 30 6 4
+30 0 5 10
+6 5 0 20
+4 10 20 0
+out
+TSP
+***
+
+
+i==2
+else
+x[2]==2
+x[2]==2
+1
+2
+
+
+i==3
+else
+x[3]==3
+x[3]==3
+2
+3
+
+
+i==4
+x[3]==3
+x[4]==4
+2
+4
+
+
+i==4
+x[2]==2
+x[3]==3
+1
+3
+
+
+i==3
+else
+x[3]==2
+x[3]==2
+3
+2
+
+
+i==4
+x[2]==2
+x[4]==4
+1
+4
+
+
+i==3
+else
+x[3]==3
+x[3]==3
+4
+3
+
+
+i==4
+x[3]==3
+x[4]==2
+4
+2
+
+
+i==4
+25
+
+
+
